@@ -19,12 +19,34 @@ function App() {
     })
   }, [])
 
-  // [{title: "coucou"}]
-  // <li>coucou</li>
+  function deleteTask(id) {
+    axios.delete('http://localhost:4000/tasks/'+id)
+    .then(() => {
+      // Dès que la tâche est supprimée, alors je la supprime 
+      // de mes données React.JS
+      
+      // Objectif, ça va être de filtrer mon tableau de tâches
+      // pour ne garder que celles dont l'id est différent de la variable id
+
+      // Exemple avec id:7 et 
+      /* 
+        tasks = [
+          {id:1, title: "nji"}, 
+          {id: 4, title: "ijj"},
+          {id: 7, title: "jijijijij"}
+        ]
+      */
+      // 1 !== 7 OUI, va dans filterTasks
+      // 4 !== 7 OUI, va dans filterTasks
+      // 7 !== 7 -> NON, ne va pas dans filterTasks
+      const filterTasks = tasks.filter(task => task.id !== id)
+      setTasks(filterTasks);
+    })
+  }
 
   const tasksJSX = tasks.map(task => {
-    return <li>{task.title} 
-        <button>Supprimer</button>
+    return <li>{task.id}: {task.title} 
+        <button onClick={() => deleteTask(task.id)}>Supprimer</button>
       </li>
   })
 
