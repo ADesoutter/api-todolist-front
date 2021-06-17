@@ -6,6 +6,8 @@ import axios from 'axios';
 // -> ma liste des tâches
 
 function App() {
+  const [newTitle, setNewTitle] = useState("");
+
   const [tasks,setTasks] = useState([
     {title: "coucou"}
   ])
@@ -50,9 +52,28 @@ function App() {
       </li>
   })
 
+  const handleNewTitle = (e) => {
+    setNewTitle(e.target.value);
+  }
+
+  const addTask = (e) => {
+    e.preventDefault();
+    axios.post('http://localhost:4000/tasks', {
+      title: newTitle
+    }).then(res => {
+      const newTasks = [...tasks, res.data];
+      setTasks(newTasks);
+    })
+  }
+
   return (
     <div className="App">
       <h1>Ma liste de tâches</h1>
+      <form onSubmit={addTask}>
+        {/*   const [newTitle, setNewTitle] = useState(""); */}
+        <input type="text" value={newTitle} onChange={handleNewTitle} />
+        <input type="submit" value="Envoyer"/>
+      </form>
       <ul>
         {tasksJSX}
       </ul>
