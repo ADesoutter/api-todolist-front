@@ -12,7 +12,8 @@ function App() {
 
   // Ca se lance au démarrage du composant
   useEffect(() => {
-    axios.get('https://jsonplaceholder.typicode.com/todos')
+    // Nique, je veux mon API. Chien.
+    axios.get('http://localhost:4000/tasks')
     .then(res => {
       setTasks(res.data);
     })
